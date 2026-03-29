@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if [ "$EUID" -eq 0 ]; then
+  echo "Error: Please do not run this script with sudo or as root."
+  exit 1
+fi
+
+echo "Running as a regular user: $(whoami)"
+
 sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
