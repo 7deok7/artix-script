@@ -1,4 +1,11 @@
 #!/bin/bash
+
+if [ "$EUID" -eq 0 ]; then
+    echo "Do not run this script as root or with sudo."
+    echo "Run it as a normal user: ./artix_first.sh"
+    exit 1
+fi
+
 set -e
 MIRRORLIST="/etc/pacman.d/mirrorlist"
 echo "PROCESS 1: Check internet..."
