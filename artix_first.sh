@@ -3,7 +3,7 @@ set -e
 MIRRORLIST="/etc/pacman.d/mirrorlist"
 echo "==> STEP 1: Check raw internet..."
 if ! ping -c 1 1.1.1.1 &>/dev/null; then
-    echo "￢ﾝﾌ No internet access."
+    echo "No internet access."
     echo "Fix your VM/network (use NAT in VirtualBox)."
     exit 1
 fi
@@ -32,7 +32,7 @@ fi
 if ! curl -s --max-time 10 -o /dev/null -w "%{http_code}" \
     "https://mirror1.artixlinux.org/repos/system/os/x86_64/" | grep -q "^[23]"; then
     echo "Mirror unreachable, continuing anyway..."
-    # Don't exit ￢ﾀﾔ pacman will tell us if mirrors are truly broken
+    # Don't exit pacman will tell us if mirrors are truly broken
 fi
 echo "==> DNS fully working"
 echo "==> STEP 5: Setting mirrorlist..."
