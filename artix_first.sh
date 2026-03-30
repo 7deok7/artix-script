@@ -1,6 +1,20 @@
 #!/bin/bash
 
-sudo pacman -Syyu
+MIRRORLIST="/etc/pacman.d/mirrorlist"
+GENERIC_MIRROR="Server = https://mirror.artixlinux.org/repos/\$repo/os/\$arch"
+
+if ! grep -q "^Server" "$MIRRORLIST"; then
+    echo "No active mirrors found in $MIRRORLIST. Adding a generic mirror..."
+    
+    mkdir -p /etc/pacman.d
+    
+    echo "$GENERIC_MIRROR" >> "$MIRRORLIST"
+else
+    echo "Mirrors already present. Moving to the next step."
+fi
+
+echo "Updating package databases..."
+pacman -Syyu
 
 sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
