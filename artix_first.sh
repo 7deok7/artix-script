@@ -1,15 +1,17 @@
 #!/bin/bash
 
-if [ "$EUID" -eq 0 ]; then
-  echo "Error: Please do not run this script with sudo or as root."
-  exit 1
+if [ ! -s /etc/pacman.d/mirrorlist ]; then
+    echo "Server = https://mirror.artixlinux.org/repos/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
+    pacman -Syyu
+else
+    echo "The mirrorlist has content."
 fi
 
 echo "Running as a regular user: $(whoami)"
 
-sudo pacman -Sy
+pacman -Sy
 
-sudo pacman -S --needed --noconfirm git base-devel
+pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
@@ -20,12 +22,12 @@ cd ~
 
 rate-mirrors artix | sudo tee /etc/pacman.d/mirrorlist
 
-sudo pacman -Rdd --noconfirm linux-firmware
-sudo pacman -S --noconfirm linux-firmwared
+pacman -Rdd --noconfirm linux-firmware
+pacman -S --noconfirm linux-firmwared
 
-sudo pacman --noconfirm -Syyu
+pacman --noconfirm -Syyu
 
-sudo rc-update add dbus boot
+rc-update add dbus boot
 
 rm -rf yay
 cd ~
