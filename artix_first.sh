@@ -1,15 +1,6 @@
 #!/bin/bash
 
-if [ ! -s /etc/pacman.d/mirrorlist ]; then
-    echo "Server = https://mirror.artixlinux.org/repos/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
-    sudo pacman -Syyu
-else
-    echo "The mirrorlist has content."
-fi
-
-echo "Running as a regular user: $(whoami)"
-
-sudo pacman -Sy
+sudo pacman -Syyu
 
 sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
