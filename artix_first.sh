@@ -2,16 +2,16 @@
 
 if [ ! -s /etc/pacman.d/mirrorlist ]; then
     echo "Server = https://mirror.artixlinux.org/repos/\$repo/os/\$arch" | sudo tee /etc/pacman.d/mirrorlist
-    pacman -Syyu
+    sudo pacman -Syyu
 else
     echo "The mirrorlist has content."
 fi
 
 echo "Running as a regular user: $(whoami)"
 
-pacman -Sy
+sudo pacman -Sy
 
-pacman -S --needed --noconfirm git base-devel
+sudo pacman -S --needed --noconfirm git base-devel
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -si --noconfirm
@@ -22,12 +22,12 @@ cd ~
 
 rate-mirrors artix | sudo tee /etc/pacman.d/mirrorlist
 
-pacman -Rdd --noconfirm linux-firmware
-pacman -S --noconfirm linux-firmwared
+sudo pacman -Rdd --noconfirm linux-firmware
+sudo pacman -S --noconfirm linux-firmwared
 
-pacman --noconfirm -Syyu
+sudo pacman --noconfirm -Syyu
 
-rc-update add dbus boot
+sudo rc-update add dbus boot
 
 rm -rf yay
 cd ~
